@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+{% block title %}{{ listing.title }} — BizBridge{% endblock %}
+{% block content %}
+
+<div class="container page-content">
+  <a href="/listings" class="back-link">&larr; Back to Listings</a>
+
+  <div class="detail-layout">
+    <div class="detail-main">
+      <div class="detail-badges">
+        <span class="badge">{{ listing.business_type }}</span>
+        {% if listing.seller_financing_available %}<span class="badge badge-green">Seller Financing Available</span>{% endif %}
+        {% if listing.attorney_involved %}<span class="badge badge-blue">Attorney Involved</span>{% endif %}
+      </div>
+
+      <h1>{{ listing.title }}</h1>
+      <p class="detail-location">&#128205; {{ listing.location }}</p>
+
+      <div class="financials-row">
+        <div class="fin-block">
+          <span class="fin-label">Asking Price</span>
+          <span class="fin-value">${{ "{:,.0f}".format(listing.asking_price) }}</span>
+        </div>
+        {% if listing.annual_revenue %}
+        <div class="fin-block">
+          <span class="fin-label">Annual Revenue</span>
+          <span class="fin-value">${{ "{:,.0f}".format(listing.annual_revenue) }}</span>
+        </div>
+        {% endif %}
+        {% if listing.annual_cash_flow %}
+        <div class="fin-block">
+          <span class="fin-label">Annual Cash Flow</span>
+          <span class="fin-value">${{ "{:,.0f}".format(listing.annual_cash_flow) }}</span>
+        </div>
+        {% endif %}
+        {% if listing.annual_cash_flow and listing.asking_price %}
+        <div class="fin-block">
+          <span class="fin-label">Price / Cash Flow</span>
+          <span class="fin-value">{{ "{:.1f}x}".format(listing.asking_price / listing.annual_cash_flow) }}</span>
+        </div>
+        {% endif %}
+      </div>
+
+      <h2>About This Business</h2>
+      <div class="description-text">{{ listing.description }}</div>
+
+      {% if listing.seller_financing_available %}
+      <div class="sf-summary">
+        <h2>Seller Financing Terms Offered</h2>
+        <div class="financials-row">
+          {% if listing.sf_down_payment_pct %}
+          <div class="fin-block">
+            <span class="fin-label">Down Payment</span>
+            <span class="fin-value">{{ listing.sf_down_payment_pct }}%</span>
+          </div>
+          {% endif %}
+          {% if listing.sf_interest_rate %}
+          <div class="fin-block">
+            <span class="fin-label">Interest Rate</span>
+            <span class="fin-value">{{ listing.sf_interest_rate }}% / yr</span>
+          </div>
+          {% endif %}
+          {% if listing.sf_term_years %}
+          <div class="fin-block">
+            <span class="fin-label">Term</span>
+            <span class="fin-value">{{ listing.sf_term_years }} years</span>
+          </div>
+          {% endif %}
+        </div>
+        {% if listing.sf_down_payment_pct and listing.sf_interest_rate and listing.sf_term_years %}
+        <a href="/calculator?price={{ listing.asking_price }}&down={{ listing.sf_down_payment_pct }}&rate={{ listing.sf_interest_rate }}&term={{ listing.sf_term_years }}"
+           class="btn-outline" target="_blank">
+          View Payment Schedule
+        </a>
+        {% else %}
+        <a href="/calculator" class="btn-outline" target="_blank">Open Calculator</a>
+        {% endif %}
+      </div>
+      {% endif %}
+    </div>
+
+    <aside class="detail-sidebar">
+      <div class="contact-card">
+        <h3>Contact the Seller</h3>
+        {% if listing.attorney_involved %}
+          <p class="attorney-note">&#9878;&#65039; This seller's attorney is involved. Expect structured communications.</p>
+        {% endif %}
+        <p><strong>{{ listing.contact_name }}</strong></p>
+        <a href="mailto:{{ listing.contact_email }}" class="contact-link">{{ listing.contact_email }}</a>
+        {% if listing.contact_phone %}
+          <p><a href="tel:{{ listing.contact_phone }}" class="contact-link">{{ listing.contact_phone }}</a></p>
+        {% endif %}
+        <a href="mailto:{{ listing.contact_email }}?subject=Interest in: {{ listing.title }}" class="btn-primary full-width">Send Inquiry</a>
+      </div>
+
+      <div class="resources-card">
+        <h3>Resources</h3>
+        <ul>
+          <li><a href="/calculator">Amortization Calculator</a></li>
+          <li><a href="/faq#seller-financing">Seller Financing FAQ</a></li>
+          <li><a href="/faq#buying">Buyer's Guide</a></li>
+        </ul>
+      </div>
+    </aside>
+  </div>
+</div>
+
+{% endblock %}

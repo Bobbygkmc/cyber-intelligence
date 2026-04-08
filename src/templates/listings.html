@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}Browse Listings — BizBridge{% endblock %}
+{% block content %}
+
+<div class="container page-content">
+  <div class="page-header">
+    <h1>Business Listings</h1>
+    <a href="/listings/new" class="btn-primary">+ List a Business</a>
+  </div>
+
+  <form class="filter-bar" method="get" action="/listings">
+    <select name="business_type">
+      <option value="">All Types</option>
+      {% for bt in ["Restaurant","Retail","Service","Manufacturing","Franchise","Healthcare","Technology","Other"] %}
+        <option value="{{ bt }}" {% if business_type == bt %}selected{% endif %}>{{ bt }}</option>
+      {% endfor %}
+    </select>
+    <label class="checkbox-label">
+      <input type="checkbox" name="seller_financing" value="true" {% if seller_financing %}checked{% endif %} />
+      Seller Financing Available
+    </label>
+    <button type="submit" class="btn-outline">Filter</button>
+    <a href="/listings" class="btn-ghost">Clear</a>
+  </form>
+
+  {% if listings %}
+    <div class="listing-grid">
+      {% for l in listings %}
+      <a href="/listings/{{ l.id }}" class="listing-card">
+        <div class="listing-header">
+          <span class="badge">{{ l.business_type }}</span>
+          {% if l.seller_financing_available %}
+            <span class="badge badge-green">Seller Financing</span>
+          {% endif %}
+          {% if l.attorney_involved %}
+            <span class="badge badge-blue">Attorney</span>
+          {% endif %}
+        </div>
+        <h3>{{ l.title }}</h3>
+        <p class="listing-location">&#128205; {{ l.location }}</p>
+        <p class="listing-price">${{ "{:,.0f}".format(l.asking_price) }}</p>
+        {% if l.annual_cash_flow %}
+          <p class="listing-meta">Cash Flow: ${{ "{:,.0f}".format(l.annual_cash_flow) }}/yr</p>
+        {% endif %}
+        <p class="listing-desc">{{ l.description[:140] }}{% if l.description|length > 140 %}…{% endif %}</p>
+      </a>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="empty-state">
+      <p>No listings found. <a href="/listings/new">Be the first to list a business.</a></p>
+    </div>
+  {% endif %}
+</div>
+
+{% endblock %}

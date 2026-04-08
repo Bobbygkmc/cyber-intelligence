@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}BizBridge — Buy &amp; Sell Businesses in Pennsylvania{% endblock %}
+{% block content %}
+
+<section class="hero">
+  <div class="hero-inner">
+    <h1>Find Your Next Business.<br>Or Sell the One You Built.</h1>
+    <p class="hero-sub">BizBridge connects buyers and sellers across Pennsylvania with transparent listings, seller financing tools, and legal team integration.</p>
+    <div class="hero-actions">
+      <a href="/listings" class="btn-primary">Browse Listings</a>
+      <a href="/listings/new" class="btn-secondary">List Your Business</a>
+    </div>
+  </div>
+</section>
+
+<section class="features">
+  <div class="container">
+    <h2>How BizBridge Works</h2>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="feature-icon">&#128203;</div>
+        <h3>Browse Verified Listings</h3>
+        <p>Filter by business type, location, and seller financing availability. Every listing includes asking price, revenue, and cash flow data.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">&#128176;</div>
+        <h3>Seller Financing Tools</h3>
+        <p>Sellers can offer financing directly. Use our amortization calculator to model different down payments, rates, and terms — instantly.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">&#9878;&#65039;</div>
+        <h3>Involve Your Legal Team</h3>
+        <p>Flag your listing for attorney involvement. BizBridge supports structured deals with legal review from the start of negotiations.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">&#128218;</div>
+        <h3>Pennsylvania Law Guidance</h3>
+        <p>Our FAQ covers PA-specific rules: license transfers, PA income tax on sales, UCC filings for seller financing, and non-compete enforceability.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-strip">
+  <div class="container">
+    <h2>Ready to run the numbers?</h2>
+    <p>Model your seller financing deal before you make an offer.</p>
+    <a href="/calculator" class="btn-primary">Open Amortization Calculator</a>
+  </div>
+</section>
+
+{% endblock %}

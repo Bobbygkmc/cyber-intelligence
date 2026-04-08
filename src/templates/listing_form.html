@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+{% block title %}List a Business — BizBridge{% endblock %}
+{% block content %}
+
+<div class="container page-content narrow">
+  <h1>List Your Business</h1>
+  <p class="form-intro">Fill out the details below. Buyers will be able to contact you directly. Engage your attorney at any point in the process.</p>
+
+  <form method="post" action="/listings/new" class="form-card">
+
+    <fieldset>
+      <legend>Business Details</legend>
+
+      <div class="form-group">
+        <label for="title">Listing Title *</label>
+        <input type="text" id="title" name="title" placeholder="e.g. Profitable Italian Restaurant — South Philadelphia" required />
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="business_type">Business Type *</label>
+          <select id="business_type" name="business_type" required>
+            {% for bt in business_types %}
+              <option value="{{ bt }}">{{ bt }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="location">Location *</label>
+          <input type="text" id="location" name="location" placeholder="City, PA" required />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="description">Description *</label>
+        <textarea id="description" name="description" rows="5" placeholder="Describe the business, its history, what's included in the sale, reason for selling…" required></textarea>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Financials</legend>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="asking_price">Asking Price ($) *</label>
+          <input type="number" id="asking_price" name="asking_price" step="1000" min="0" required />
+        </div>
+        <div class="form-group">
+          <label for="annual_revenue">Annual Revenue ($)</label>
+          <input type="number" id="annual_revenue" name="annual_revenue" step="1000" min="0" />
+        </div>
+        <div class="form-group">
+          <label for="annual_cash_flow">Annual Cash Flow ($)</label>
+          <input type="number" id="annual_cash_flow" name="annual_cash_flow" step="1000" min="0" />
+        </div>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Seller Financing</legend>
+      <div class="form-group checkbox-group">
+        <input type="checkbox" id="seller_financing_available" name="seller_financing_available" value="true" onchange="toggleSF(this)" />
+        <label for="seller_financing_available">I am willing to offer seller financing</label>
+      </div>
+
+      <div id="sf-details" class="sf-details hidden">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="sf_down_payment_pct">Down Payment (%)</label>
+            <input type="number" id="sf_down_payment_pct" name="sf_down_payment_pct" step="0.5" min="5" max="95" placeholder="e.g. 20" />
+          </div>
+          <div class="form-group">
+            <label for="sf_interest_rate">Annual Interest Rate (%)</label>
+            <input type="number" id="sf_interest_rate" name="sf_interest_rate" step="0.25" min="0" max="30" placeholder="e.g. 6.5" />
+          </div>
+          <div class="form-group">
+            <label for="sf_term_years">Term (Years)</label>
+            <input type="number" id="sf_term_years" name="sf_term_years" step="1" min="1" max="30" placeholder="e.g. 5" />
+          </div>
+        </div>
+        <p class="hint">These are your offered starting terms. Buyers may negotiate. <a href="/calculator" target="_blank">Use the calculator</a> to preview payment schedules.</p>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Contact &amp; Legal</legend>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="contact_name">Your Name *</label>
+          <input type="text" id="contact_name" name="contact_name" required />
+        </div>
+        <div class="form-group">
+          <label for="contact_email">Email *</label>
+          <input type="email" id="contact_email" name="contact_email" required />
+        </div>
+        <div class="form-group">
+          <label for="contact_phone">Phone</label>
+          <input type="tel" id="contact_phone" name="contact_phone" placeholder="(215) 555-0100" />
+        </div>
+      </div>
+      <div class="form-group checkbox-group">
+        <input type="checkbox" id="attorney_involved" name="attorney_involved" value="true" />
+        <label for="attorney_involved">My attorney is involved in this sale — buyers should expect structured negotiations</label>
+      </div>
+    </fieldset>
+
+    <div class="form-actions">
+      <button type="submit" class="btn-primary">Publish Listing</button>
+      <a href="/listings" class="btn-ghost">Cancel</a>
+    </div>
+
+  </form>
+</div>
+
+{% endblock %}
+{% block scripts %}
+<script>
+function toggleSF(cb) {
+  document.getElementById('sf-details').classList.toggle('hidden', !cb.checked);
+}
+</script>
+{% endblock %}

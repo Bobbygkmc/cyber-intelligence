@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}FAQ — BizBridge{% endblock %}
+{% block content %}
+
+<div class="container page-content">
+  <h1>Frequently Asked Questions</h1>
+  <p class="page-intro">Pennsylvania-specific guidance for business buyers and sellers. This is general information only — always consult a licensed Pennsylvania attorney and CPA for advice specific to your transaction.</p>
+
+  {% for section in faq_items %}
+  <section class="faq-section" id="{{ section.category | lower | replace(' ', '-') }}">
+    <h2>{{ section.category }}</h2>
+    <div class="faq-list">
+      {% for item in section.questions %}
+      <details class="faq-item">
+        <summary>{{ item.q }}</summary>
+        <div class="faq-answer">{{ item.a }}</div>
+      </details>
+      {% endfor %}
+    </div>
+  </section>
+  {% endfor %}
+
+  <div class="faq-cta">
+    <h2>Ready to take the next step?</h2>
+    <div class="cta-row">
+      <a href="/listings" class="btn-primary">Browse Listings</a>
+      <a href="/listings/new" class="btn-outline">List Your Business</a>
+      <a href="/calculator" class="btn-outline">Financing Calculator</a>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
